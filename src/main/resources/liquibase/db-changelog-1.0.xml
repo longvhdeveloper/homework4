@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="vlong">
+        <createTable tableName="product">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="description" type="varchar(500)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="price" type="double">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <createTable tableName="order">
+            <column name="id" type="int(11)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="date_created" type="datetime">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="customer_name" type="varchar(50)" defaultValue="anyone"></column>
+            <column name="status" type="smallint(3)">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <createTable tableName="order_detail">
+            <column name="product_id" type="int(11)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="order_id" type="int(11)">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="price" type="double">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="order_detail" baseColumnNames="order_id" constraintName="fk_order_order_detail" referencedTableName="order" referencedColumnNames="id"></addForeignKeyConstraint>
+        <addForeignKeyConstraint baseTableName="order_detail" baseColumnNames="product_id" constraintName="fk_product_order_detail" referencedTableName="product" referencedColumnNames="id"></addForeignKeyConstraint>
+    </changeSet>
+    <changeSet id="2" author="vlong">
+        <addPrimaryKey tableName="order_detail" columnNames="product_id, order_id" constraintName="pk_order_detail"></addPrimaryKey>
+    </changeSet>
+</databaseChangeLog>
