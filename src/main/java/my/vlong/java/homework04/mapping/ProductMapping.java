@@ -9,4 +9,12 @@ import org.mapstruct.factory.Mappers;
 public interface ProductMapping extends IMapping<Product, ProductDTO> {
 
     ProductMapping INSTANCE = Mappers.getMapper(ProductMapping.class);
+
+    @Override    
+    public ProductDTO toDTO(Product entity);
+
+    @Override
+    public Product toEntity(ProductDTO dto);
+    
+    
 }
