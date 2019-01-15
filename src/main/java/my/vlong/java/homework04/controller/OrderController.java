@@ -128,4 +128,12 @@ public class OrderController {
 
         return true;
     }
+    
+     private boolean isAddValid(OrderDTO orderDTO) {
+        return true;
+    }
+    
+    private boolean isUpdateValid(OrderDTO orderDTO) {
+        return true;
+    }
 }

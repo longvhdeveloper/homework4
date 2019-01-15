@@ -97,4 +97,12 @@ public class ProductController {
         }
         return productDtos;
     }
+    
+    private boolean isAddValid(ProductDTO productDTO) {
+        return true;
+    }
+    
+    private boolean isUpdateValid(ProductDTO productDTO) {
+        return true;
+    }
 }
