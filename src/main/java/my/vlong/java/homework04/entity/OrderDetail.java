@@ -24,8 +24,8 @@ public class OrderDetail implements Serializable {
     private Product product;
     
     @ManyToOne
-    @MapsId("orderI")
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @MapsId("orderId")
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
     private Order order;
 
     @Column(name = "quantity")
@@ -38,5 +38,4 @@ public class OrderDetail implements Serializable {
     public String toString() {
         return "OrderDetail{" + "id=" + id + ", quantity=" + quantity + ", price=" + price + '}';
     }
-
 }

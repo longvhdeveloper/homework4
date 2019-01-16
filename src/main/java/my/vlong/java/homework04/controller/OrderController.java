@@ -3,15 +3,10 @@ package my.vlong.java.homework04.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import my.vlong.java.homework04.dto.OrderDTO;
 import my.vlong.java.homework04.dto.OrderDetailDTO;
-import my.vlong.java.homework04.dto.ProductDTO;
 import my.vlong.java.homework04.entity.Order;
 import my.vlong.java.homework04.entity.OrderDetail;
-import my.vlong.java.homework04.entity.Product;
 import my.vlong.java.homework04.exception.CreatedException;
 import my.vlong.java.homework04.exception.DataNotFoundException;
 import my.vlong.java.homework04.exception.DeletedException;
@@ -120,7 +115,8 @@ public class OrderController {
         orderDetailDTOs.forEach((OrderDetailDTO dto) -> {
             try {
                 OrderDetail orderDetail = OrderDetailMapping.INSTANCE.toEntity(dto);
-                orderDetailRepository.add(orderDetail);
+                System.out.println(orderDetail);
+                System.out.println(orderDetailRepository.add(orderDetail));
             } catch (CreatedException ex) {
                 System.out.println("Can not add order details");
             }

@@ -11,6 +11,7 @@ import my.vlong.java.homework04.controller.OrderController;
 import my.vlong.java.homework04.controller.ProductController;
 import my.vlong.java.homework04.dto.OrderDTO;
 import my.vlong.java.homework04.dto.OrderDetailDTO;
+import my.vlong.java.homework04.dto.OrderDetailKeyDTO;
 import my.vlong.java.homework04.dto.ProductDTO;
 import my.vlong.java.homework04.entity.Status;
 import my.vlong.java.homework04.exception.CreatedException;
@@ -22,15 +23,15 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        
+        main.addOrder();
     }
 
     public void addProduct() {
         try {
             ProductDTO productDTO = new ProductDTO();
-            productDTO.setName("Test");
-            productDTO.setDescription("TestProduct");
-            productDTO.setPrice(1003.15f);
+            productDTO.setName("Iphone XS");
+            productDTO.setDescription("New product for Apple fan");
+            productDTO.setPrice(1100.15f);
 
             ProductController productController = new ProductController();
             Optional<ProductDTO> add = productController.add(productDTO);
@@ -105,10 +106,11 @@ public class Main {
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setCustomerName("Vo Hoang Long");
             orderDTO.setDateCreated("2019-01-15");
-            //orderDTO.setStatus(Status.OPEN);
+            orderDTO.setStatus(Status.OPEN);
 
             Optional<OrderDTO> add = orderController.add(orderDTO);
             if (add.isPresent()) {
+                System.out.println("ORDER ID: " + add.get().getId());
                 // add order detail
                 addOrderDetail(add.get());
                 System.out.println("add success");
@@ -121,16 +123,42 @@ public class Main {
     }
 
     private void addOrderDetail(OrderDTO orderDTO) {
-        ProductController productController = new ProductController();
         OrderController orderController = new OrderController();
-        Integer[] ids = {1, 2};
+        Integer[] ids = {1};
         List<Integer> idList = Arrays.asList(ids);
         List<OrderDetailDTO> orderDetailDTOs = new ArrayList<>();
         idList.forEach((Integer t) -> {
-           
-        });
+            try {
+                // get product from id
+                Optional<ProductDTO> productDTOOptional = new ProductController().findProduct(t);
+                if (!productDTOOptional.isPresent()) {
+                    return;
+                }
+                ProductDTO productDTO = productDTOOptional.get();
+                OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+                OrderDetailKeyDTO orderDetailKeyDTO = new OrderDetailKeyDTO();
 
-        orderController.addOrderDetails(orderDetailDTOs);
+                orderDetailKeyDTO.setProductId(productDTO.getId());
+                orderDetailKeyDTO.setOrderId(orderDTO.getId());
+
+                orderDetailDTO.setId(orderDetailKeyDTO);
+                orderDetailDTO.setOrderDTO(orderDTO);
+                orderDetailDTO.setProductDTO(productDTO);
+                orderDetailDTO.setPrice(productDTO.getPrice());
+                orderDetailDTO.setQuantity(1);
+
+                orderDetailDTOs.add(orderDetailDTO);
+            } catch (DataNotFoundException ex) {
+                System.out.println("Can not get product");
+            }
+        });
+        System.out.println(orderDetailDTOs);
+        boolean addOrderDetails = orderController.addOrderDetails(orderDetailDTOs);
+        if (addOrderDetails) {
+            System.out.println("add detail success");
+        } else {
+            System.out.println("add detail error");
+        }
     }
 
     public void updateOrder() {

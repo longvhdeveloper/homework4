@@ -3,8 +3,6 @@ package my.vlong.java.homework04.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import my.vlong.java.homework04.dto.ProductDTO;
 import my.vlong.java.homework04.entity.Product;
 import my.vlong.java.homework04.exception.CreatedException;
