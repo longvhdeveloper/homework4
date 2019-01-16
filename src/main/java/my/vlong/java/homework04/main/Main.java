@@ -22,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.addOrder();
+        
     }
 
     public void addProduct() {
@@ -127,19 +127,7 @@ public class Main {
         List<Integer> idList = Arrays.asList(ids);
         List<OrderDetailDTO> orderDetailDTOs = new ArrayList<>();
         idList.forEach((Integer t) -> {
-            try {
-                Optional<ProductDTO> findProduct = productController.findProduct(t);
-                ProductDTO productDTO = findProduct.get();
-                OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
-                orderDetailDTO.setProduct(productDTO);
-                orderDetailDTO.setOrder(orderDTO);
-                orderDetailDTO.setQuantity(1);
-                orderDetailDTO.setPrice(productDTO.getPrice());
-
-                orderDetailDTOs.add(orderDetailDTO);
-            } catch (DataNotFoundException ex) {
-                System.out.println("HERE");
-            }
+           
         });
 
         orderController.addOrderDetails(orderDetailDTOs);

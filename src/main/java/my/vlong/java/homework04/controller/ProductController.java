@@ -11,7 +11,7 @@ import my.vlong.java.homework04.exception.CreatedException;
 import my.vlong.java.homework04.exception.DataNotFoundException;
 import my.vlong.java.homework04.exception.DeletedException;
 import my.vlong.java.homework04.exception.UpdatedException;
-import my.vlong.java.homework04.infrastructure.ProductRepositoryImpl;
+import my.vlong.java.homework04.infrastructure.repository.ProductRepositoryImpl;
 import my.vlong.java.homework04.mapping.ProductMapping;
 import my.vlong.java.homework04.repository.IProductRepository;
 

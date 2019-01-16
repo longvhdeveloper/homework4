@@ -1,4 +1,4 @@
-package my.vlong.java.homework04.infrastructure;
+package my.vlong.java.homework04.infrastructure.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,33 +7,29 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import my.vlong.java.homework04.entity.Order;
-import my.vlong.java.homework04.entity.OrderDetail;
-import my.vlong.java.homework04.entity.OrderDetailKey;
 import my.vlong.java.homework04.entity.Product;
 import my.vlong.java.homework04.exception.CreatedException;
 import my.vlong.java.homework04.exception.DataNotFoundException;
 import my.vlong.java.homework04.exception.DeletedException;
 import my.vlong.java.homework04.exception.UpdatedException;
-import my.vlong.java.homework04.repository.IOrderDetailRepository;
+import my.vlong.java.homework04.repository.IProductRepository;
 
-public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
+public class ProductRepositoryImpl implements IProductRepository {
 
     private EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
 
-    public OrderDetailRepositoryImpl() {
+    public ProductRepositoryImpl() {
         entityManagerFactory = Persistence.createEntityManagerFactory("StorePU");
     }
 
     @Override
-    public Optional<OrderDetail> add(OrderDetail t) throws CreatedException {
+    public Optional<Product> add(Product t) throws CreatedException {
         if (t == null) {
-            throw new CreatedException("Can not created order");
+            throw new CreatedException("Can not created product");
         }
-        System.out.println(t);
+
         entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -42,7 +38,6 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
             return Optional.of(t);
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            System.out.println("DEBUG: " + e.getMessage());
             throw new CreatedException(e.getMessage());
         } finally {
             if (entityManager != null) {
@@ -52,7 +47,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
     }
 
     @Override
-    public Optional<OrderDetail> update(OrderDetail t) throws UpdatedException {
+    public Optional<Product> update(Product t) throws UpdatedException {
         if (t == null) {
             throw new UpdatedException("Can not updated product");
         }
@@ -74,14 +69,15 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
     }
 
     @Override
-    public boolean delete(OrderDetailKey id) throws DeletedException {
+    public boolean delete(Integer id) throws DeletedException {
         entityManager = entityManagerFactory.createEntityManager();
         try {
-            OrderDetail orderDetail = entityManager.find(OrderDetail.class, id);
+            Product product = entityManager.find(Product.class, id);
             entityManager.getTransaction().begin();
-            entityManager.remove(orderDetail);
+            entityManager.remove(product);
             entityManager.getTransaction().commit();
         } catch (Exception e) {
+            entityManager.getTransaction().rollback();
             throw new DeletedException(e.getMessage());
         } finally {
             if (entityManager != null) {
@@ -92,11 +88,11 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
     }
 
     @Override
-    public Optional<OrderDetail> findByOne(OrderDetailKey k) throws DataNotFoundException {
+    public Optional<Product> findByOne(Integer k) throws DataNotFoundException {
         entityManager = entityManagerFactory.createEntityManager();
-        OrderDetail orderDetail = null;
+        Product product = null;
         try {
-            orderDetail = entityManager.find(OrderDetail.class, k);
+            product = entityManager.find(Product.class, k);
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
@@ -104,19 +100,19 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
                 entityManager.close();
             }
         }
-        return Optional.ofNullable(orderDetail);
+        return Optional.ofNullable(product);
     }
 
     @Override
-    public List<OrderDetail> findAll() throws DataNotFoundException {
+    public List<Product> findAll() throws DataNotFoundException {
         entityManager = entityManagerFactory.createEntityManager();
-        List<OrderDetail> orders = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
 
         try {
             CriteriaQuery criteriaQuery = entityManager.getCriteriaBuilder().createQuery();
-            criteriaQuery.select(criteriaQuery.from(OrderDetail.class));
+            criteriaQuery.select(criteriaQuery.from(Product.class));
             Query query = entityManager.createQuery(criteriaQuery);
-            orders = query.getResultList();
+            products = query.getResultList();
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
@@ -125,30 +121,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
             }
         }
 
-        return orders;
-    }
-
-    @Override
-    public List<OrderDetail> getOrderDetail(Order order) throws DataNotFoundException {
-        if (order == null) {
-            throw new DataNotFoundException("Data not found");
-        }
-        entityManager = entityManagerFactory.createEntityManager();
-        List<OrderDetail> orderDetails = new ArrayList<>();
-
-        try {
-            TypedQuery<OrderDetail> query = entityManager.createQuery("SELECT od FROM order_detail WHERE order_id = :order_id", OrderDetail.class);
-            query.setParameter("order_id", order.getId());
-            orderDetails = query.getResultList();
-        } catch (Exception e) {
-            throw new DataNotFoundException(e.getMessage());
-        } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
-        }
-
-        return orderDetails;
+        return products;
     }
 
 }

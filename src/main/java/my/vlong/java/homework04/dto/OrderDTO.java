@@ -10,7 +10,7 @@ public class OrderDTO {
     private String id;
     private String dateCreated;
     private String customerName;
-    private int status;
+    private Status status;
     private List<OrderDetailDTO> productDtos;
 
     @Override

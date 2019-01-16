@@ -1,4 +1,4 @@
-package my.vlong.java.homework04.infrastructure;
+package my.vlong.java.homework04.infrastructure.repository;
 
 import java.util.ArrayList;
 import java.util.List;

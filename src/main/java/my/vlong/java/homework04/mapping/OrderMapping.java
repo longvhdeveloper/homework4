@@ -14,13 +14,13 @@ public interface OrderMapping extends IMapping<Order, OrderDTO> {
 
     @Override
     @Mappings({
-        //@Mapping(target = "status", expression = "java(Status.map(entity.getStatus()))")
+        @Mapping(target = "status", expression = "java(my.vlong.java.homework04.entity.Status.map(entity.getStatus()))")
     })
     public OrderDTO toDTO(Order entity);
 
     @Override
     @Mappings({
-        //@Mapping(target = "status", expression = "java(dto.getStatus().getCode())")
+        @Mapping(target = "status", expression = "java(dto.getStatus().getCode())")
     })
     public Order toEntity(OrderDTO dto);
 }
