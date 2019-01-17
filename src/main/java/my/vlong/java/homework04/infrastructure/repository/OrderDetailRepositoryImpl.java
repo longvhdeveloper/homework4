@@ -31,18 +31,18 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
     @Override
     public Optional<OrderDetail> add(OrderDetail t) throws CreatedException {
         if (t == null) {
-            throw new CreatedException("Can not created order");
+            throw new CreatedException("Can not created order detail");
         }
         System.out.println(t);
         entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(t);
+            entityManager.merge(t);
             entityManager.getTransaction().commit();
             return Optional.of(t);
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
-            System.out.println("DEBUG: " + e.getMessage());
+            System.out.println("BREAKXXXXX: " + e.getMessage());
             throw new CreatedException(e.getMessage());
         } finally {
             if (entityManager != null) {
@@ -67,9 +67,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
             entityManager.getTransaction().rollback();
             throw new UpdatedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+
         }
     }
 
@@ -84,9 +82,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
         } catch (Exception e) {
             throw new DeletedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+
         }
         return true;
     }
@@ -100,9 +96,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+
         }
         return Optional.ofNullable(orderDetail);
     }
@@ -120,9 +114,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+
         }
 
         return orders;
@@ -143,9 +135,7 @@ public class OrderDetailRepositoryImpl implements IOrderDetailRepository {
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+
         }
 
         return orderDetails;

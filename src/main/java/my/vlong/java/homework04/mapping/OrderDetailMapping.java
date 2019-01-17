@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(uses = DateMapping.class)
 public interface OrderDetailMapping extends IMapping<OrderDetail, OrderDetailDTO> {
 
     OrderDetailMapping INSTANCE = Mappers.getMapper(OrderDetailMapping.class);
@@ -23,14 +23,15 @@ public interface OrderDetailMapping extends IMapping<OrderDetail, OrderDetailDTO
     @Mappings({
         @Mapping(target = "productDTO", source = "entity.product"),
         @Mapping(target = "orderDTO", source = "entity.order"),
-        @Mapping(target = "orderDTO.status", expression = "java(my.vlong.java.homework04.entity.Status.map(entity.order.getStatus()))")
+        @Mapping(target = "orderDTO.status", expression = "java(my.vlong.java.homework04.entity.Status.map(order.getStatus()))")
     })
     public OrderDetailDTO toDTO(OrderDetail entity);
 
     @Override
     @Mappings({
         @Mapping(target = "product", source = "dto.productDTO"),
-        @Mapping(target = "order", source = "dto.orderDTO")
+        @Mapping(target = "order", source = "dto.orderDTO"),
+        @Mapping(target = "order.status", expression = "java(orderDTO.getStatus().getCode())")
     })
     public OrderDetail toEntity(OrderDetailDTO dto);
 

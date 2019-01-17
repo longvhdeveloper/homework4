@@ -1,5 +1,8 @@
 package my.vlong.java.homework04.main;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +26,7 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.addOrder();
+        main.findOrder();
     }
 
     public void addProduct() {
@@ -193,11 +196,14 @@ public class Main {
 
     public void findOrder() {
         try {
-            int id = 2;
+            int id = 17;
             OrderController orderController = new OrderController();
-            Optional<OrderDTO> findOrder = orderController.findProduct(id);
+            Optional<OrderDTO> findOrder = orderController.findOrder(id);
             if (findOrder.isPresent()) {
-                System.out.println(findOrder.get());
+                OrderDTO orderDTO = findOrder.get();
+                
+                System.out.println(orderDTO);
+                
             } else {
                 System.out.println("Not found data");
             }

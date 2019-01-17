@@ -40,9 +40,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
             entityManager.getTransaction().rollback();
             throw new CreatedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
     }
 
@@ -62,9 +60,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
             entityManager.getTransaction().rollback();
             throw new UpdatedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
     }
 
@@ -79,9 +75,7 @@ public class OrderRepositoryImpl implements IOrderRepository {
         } catch (Exception e) {
             throw new DeletedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
         return true;
     }
@@ -92,12 +86,11 @@ public class OrderRepositoryImpl implements IOrderRepository {
         Order order = null;
         try {
             order = entityManager.find(Order.class, k);
+            System.out.println("XXXXXXXX: " + order);
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
         return Optional.ofNullable(order);
     }
@@ -111,13 +104,11 @@ public class OrderRepositoryImpl implements IOrderRepository {
             CriteriaQuery criteriaQuery = entityManager.getCriteriaBuilder().createQuery();
             criteriaQuery.select(criteriaQuery.from(Order.class));
             Query query = entityManager.createQuery(criteriaQuery);
-            orders = query.getResultList();
+            orders = query.getResultList();            
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
 
         return orders;

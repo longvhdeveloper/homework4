@@ -79,7 +79,7 @@ public class OrderController {
         return false;
     }
 
-    public Optional<OrderDTO> findProduct(int id) throws DataNotFoundException {
+    public Optional<OrderDTO> findOrder(int id) throws DataNotFoundException {
         OrderDTO orderDTO = null;
 
         try {
@@ -116,7 +116,7 @@ public class OrderController {
             try {
                 OrderDetail orderDetail = OrderDetailMapping.INSTANCE.toEntity(dto);
                 System.out.println(orderDetail);
-                System.out.println(orderDetailRepository.add(orderDetail));
+                System.out.println("XXXXXXXXXXX: " + orderDetailRepository.add(orderDetail));
             } catch (CreatedException ex) {
                 System.out.println("Can not add order details");
             }

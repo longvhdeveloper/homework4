@@ -40,9 +40,7 @@ public class ProductRepositoryImpl implements IProductRepository {
             entityManager.getTransaction().rollback();
             throw new CreatedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
     }
 
@@ -62,9 +60,7 @@ public class ProductRepositoryImpl implements IProductRepository {
             entityManager.getTransaction().rollback();
             throw new UpdatedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
     }
 
@@ -80,9 +76,7 @@ public class ProductRepositoryImpl implements IProductRepository {
             entityManager.getTransaction().rollback();
             throw new DeletedException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
         return true;
     }
@@ -96,9 +90,7 @@ public class ProductRepositoryImpl implements IProductRepository {
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
         return Optional.ofNullable(product);
     }
@@ -116,9 +108,7 @@ public class ProductRepositoryImpl implements IProductRepository {
         } catch (Exception e) {
             throw new DataNotFoundException(e.getMessage());
         } finally {
-            if (entityManager != null) {
-                entityManager.close();
-            }
+            
         }
 
         return products;
